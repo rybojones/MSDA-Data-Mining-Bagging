@@ -63,3 +63,21 @@ def regressor(dataframe, estimator=LinearRegression(), n_estimators=20):
         predictions['Estimator_'+str(i+1)] = predict
 
     return predictions
+
+
+def bagging_estimator(df_predict, take_avg=True):
+    '''
+    Takes in a dataframe of predictions and averages those values to produce a single bagging estimator.
+
+    'take_avg' value of True indicates the use of the arithmetic mean, False indicates the use of mode.
+    '''
+    # find the 'width' of the prediction dataframe
+    width = df_predict.shape[1]
+
+    # find the average of the predictions to produce a bagging estimate for linear regression
+    if take_avg:
+        return (df_predict.sum(axis=1) / width)
+
+    # find the mode of the predictions to produce a bagging estimate for decision tree regression
+    else:
+        return df_predict.mode(axis=1).iloc[:,0]    # grab the element in the first column from the resulting dataframe to handle duplicate mode values
