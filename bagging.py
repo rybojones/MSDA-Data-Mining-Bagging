@@ -125,3 +125,11 @@ def bagging_error_calculator(predict_indiv, predict_bagging):
 
     # return the average of the mean bagging errors
     return (sum(bagging_errors) / k)
+
+
+def create_boxplots(predict_array, title='Title', filepath='./'):
+    '''
+    Produce side-by-side boxplots for each sample set of predictions.
+    '''
+    ax = predict_array.plot(kind='box', title=title, figsize=(10,10), vert=False)
+    ax.figure.savefig(filepath+title.replace(' ','_')+'.pdf')
