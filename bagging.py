@@ -127,9 +127,11 @@ def bagging_error_calculator(predict_indiv, predict_bagging):
     return (sum(bagging_errors) / k)
 
 
-def create_boxplots(predict_array, title='Title', filepath='./'):
+def create_boxplots(predict_array, title='Title', x_label=None, y_label=None, filepath='./'):
     '''
     Produce side-by-side boxplots for each sample set of predictions.
     '''
     ax = predict_array.plot(kind='box', title=title, figsize=(10,10), vert=False)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
     ax.figure.savefig(filepath+title.replace(' ','_')+'.pdf')
