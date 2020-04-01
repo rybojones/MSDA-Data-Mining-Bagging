@@ -39,7 +39,7 @@ def bootstrap_sample(dataframe, sample_size=1460):
     Perform bootstrap sampling on the dataframe, i.e. sampling with replacement
     '''
     # even though the sampling is with replacement, it seems practical to limit the max sample size to be the number of data records.
-    if X.shape[0] < sample_size:
+    if dataframe.shape[0] < sample_size:
         print('Error: Sample size out of bounds.')
         return
 
@@ -139,7 +139,7 @@ def create_boxplots(predict_array, title='Title', x_label=None, y_label=None, fi
 
 def main():
     # load in the file
-    df = load_file('./Data/ASS06_Data.csv')
+    df = load_file('../Data/ASS06_Data.csv')
 
     # perform the bagging for both linear and decision trees regression
     pred_linear = regressor(df)
