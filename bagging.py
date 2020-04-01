@@ -135,3 +135,31 @@ def create_boxplots(predict_array, title='Title', x_label=None, y_label=None, fi
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     ax.figure.savefig(filepath+title.replace(' ','_')+'.pdf')
+
+
+def main():
+    # load in the file
+    df = load_file('./Data/ASS06_Data.csv')
+
+    # perform the bagging for both linear and decision trees regression
+    pred_linear = regressor(df)
+    pred_dt = regressor(df, estimator=DecisionTreeRegressor())
+
+    # generate the bagging estimator for both models based on the bagging samples
+    linear_bag_pred = bagging_estimator(pred_linear)
+    dt_bag_pred = bagging_estimator(pred_dt, False)
+
+    # store the actual results in a pandas series
+    actual = df.iloc[:,-1]
+
+    # calculate and print the MSE and error for the bagging estimator
+    print('MSE for model accuracy: ', mse_calculator(linear_bag_pred, actual))
+    print('MSE for individual predictions vs. bagging estimator:', bagging_error_calculator(pred_linear, linear_bag_pred))
+
+    # create boxplots of the predictions for all samples for both models
+    create_boxplots(pred_linear, title='Bagging with Linear Regression', x_label='Predicted House Price', filepath='./images/')
+    create_boxplots(pred_dt, title='Bagging with Decision Tree Regression', x_label='Predicted House Price', filepath='./images/')
+
+
+if __name__ == '__main__':
+    main()
