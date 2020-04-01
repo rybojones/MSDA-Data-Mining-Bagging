@@ -98,3 +98,30 @@ def mse_calculator(predict, actual):
     sse = (predict - actual)**2
     sum_sse = sse.sum()
     return sum_sse / n
+
+
+def bagging_error_calculator(predict_indiv, predict_bagging):
+    '''
+    Compute the squared error for the bagging estimator on each individual 1-D prediction array. Return the mean of these values.
+    '''
+    # check that the arrays are the same length
+    if predict_indiv.shape[0] != predict_bagging.shape[0]:
+        print('Error: predict_individual and predict_bagging arrays not the same shape.')
+
+    # define the number of data values and bagging samples
+    n = predict_indiv.shape[0]
+    k = predict_indiv.shape[1]
+
+    # create an empty list to store the squared error for each bagging sample
+    bagging_errors = []
+
+    # iterate through the bagging samples and calculate the squared error of the estimator for each sample
+    # then find the mean of these squared errors for each sample and store in a list
+    for col in predict_indiv.columns:
+        # create temporary dataframe for easy arithmetic operations
+        temp = pd.DataFrame({col: predict_indiv[col], 'bagging_estimator': predict_bagging})
+        temp['difference'] = (temp[col] - temp.bagging_estimator)**2
+        bagging_errors.append(temp.difference.sum() / n)
+
+    # return the average of the mean bagging errors
+    return (sum(bagging_errors) / k)
