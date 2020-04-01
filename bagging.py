@@ -153,8 +153,14 @@ def main():
     actual = df.iloc[:,-1]
 
     # calculate and print the MSE and error for the bagging estimator
-    print('MSE for model accuracy: ', mse_calculator(linear_bag_pred, actual))
-    print('MSE for individual predictions vs. bagging estimator:', bagging_error_calculator(pred_linear, linear_bag_pred))
+    print('Linear Regression - MSE for individual predictions vs. bagging estimator:', bagging_error_calculator(pred_linear, linear_bag_pred))
+    print('\n')
+    print('Decision Tree - MSE for individual predictions vs. bagging estimator:', bagging_error_calculator(pred_dt, dt_bag_pred))
+    print('\n')
+    print('Liner Regression - MSE for model accuracy: ', mse_calculator(linear_bag_pred, actual))
+    print('\n')
+    print('Decision Tree - MSE for model accuracy: ', mse_calculator(dt_bag_pred, actual))
+    print('\n')
 
     # create boxplots of the predictions for all samples for both models
     create_boxplots(pred_linear, title='Bagging with Linear Regression', x_label='Predicted House Price', filepath='./images/')
