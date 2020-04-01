@@ -81,3 +81,20 @@ def bagging_estimator(df_predict, take_avg=True):
     # find the mode of the predictions to produce a bagging estimate for decision tree regression
     else:
         return df_predict.mode(axis=1).iloc[:,0]    # grab the element in the first column from the resulting dataframe to handle duplicate mode values
+
+
+def mse_calculator(predict, actual):
+    '''
+    Output the MSE of the predicted vs. actual values.
+    '''
+    # check that the arrays are the same length
+    if predict.shape[0] != actual.shape[0]:
+        print('Error: predict and actual arrays not the same shape.')
+
+    # define the number of data values
+    n = predict.shape[0]
+
+    # calcualte and return MSE
+    sse = (predict - actual)**2
+    sum_sse = sse.sum()
+    return sum_sse / n
